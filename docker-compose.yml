@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    image: laravel-inertia-react-app
-    container_name: laravel-app
+    image: laravel-blog
+    container_name: laravel-blog
     ports:
       - 9200:9200
     volumes:
@@ -28,10 +28,10 @@ services:
 
   mysql:
     image: mysql:8.0
-    container_name: laravel-mysql
+    container_name: laravel-blog-mysql
     restart: always
     environment:
-      MYSQL_DATABASE: laravel
+      MYSQL_DATABASE: laravel-blog
       MYSQL_ROOT_PASSWORD: root
     ports:
       - 9201:3306
