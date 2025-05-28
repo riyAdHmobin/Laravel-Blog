@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    image: laravel-inertia-react-app
+    container_name: laravel-app
+    ports:
+      - 9200:9200
+    volumes:
+      - ./project:/var/www
+
+    depends_on:
+      - mysql
+
+  nginx:
+    image: nginx:latest
+    container_name: laravel-nginx
+    ports:
+      - 9202:80
+    volumes:
+      - ./project:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+
+  mysql:
+    image: mysql:8.0
+    container_name: laravel-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 9201:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
